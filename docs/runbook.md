@@ -1,10 +1,10 @@
 ﻿# Runbook
 
-Atualizado em 2026-11-07. Execute os comandos na raiz do projeto. Este documento descreve a reprodução da Entrega 1 usando os artefatos distribuídos; os registros históricos de implementação e verificação ficam apenas no ambiente local do autor.
+Atualizado em 2026-11-08. Execute os comandos na raiz do projeto. Este documento descreve a reprodução da Entrega 1 usando os artefatos distribuídos; os registros históricos de implementação e verificação ficam apenas no ambiente local do autor.
 
 ## Aviso: conjunto de teste (holdout)
 
-O holdout permanece intocado até a aprovação humana H4. Nenhum procedimento desta entrega requer datasets. Não repetir ingestão, recriar o split ou reabrir bruto/holdout. Até H4, métricas preditivas somente por validação cruzada no treino. Esta entrega não produz métricas de classificação.
+O holdout (conjunto de teste reservado) permanece intocado até a aprovação humana para a avaliação final. Nenhum procedimento desta entrega requer datasets. Não repetir ingestão, recriar o split ou reabrir bruto/holdout. Até lá, métricas preditivas somente por validação cruzada no treino. Esta entrega não gera novas métricas: as métricas de validação cruzada do EXP-001, já gravadas em `reports/metrics/EXP-001.json`, são apenas lidas e exibidas pelo notebook.
 
 ## 1. Preparar o ambiente
 
@@ -113,17 +113,17 @@ O contrato das entradas está em `src/cultivo/data/`: sete features e alvo textu
 
 ## 9. Split único preservado
 
-O split já foi criado uma única vez. A reprodução do notebook não usa `load_train()`, ingestão ou split e não depende dos CSVs ausentes da distribuição. Não reconstruir o protegido usando o bruto ou metadados. Estados parciais de dados exigem intervenção humana; não apagar marcadores para repetir operações. H4 permanece pendente.
+O split já foi criado uma única vez. A reprodução do notebook não usa `load_train()`, ingestão ou split e não depende dos CSVs ausentes da distribuição. Não reconstruir o protegido usando o bruto ou metadados. Estados parciais de dados exigem intervenção humana; não apagar marcadores para repetir operações. A liberação do holdout permanece pendente.
 
 ## 10. Interface EDA e pré-processamento
 
-O [notebook](../notebooks/00_entrega_parcial.ipynb) lê apenas [EDA](../reports/data/eda.json), [extremos](../reports/data/outliers.json), [política de extremos](../reports/data/outlier-policy.json) e PNGs existentes. Exibir esses artefatos difere de recalcular a EDA. Não usar `run_eda()` para sobrescrever relatórios nesta reprodução.
+O [notebook](../notebooks/00_entrega_parcial.ipynb) lê apenas [EDA](../reports/data/eda.json), [extremos](../reports/data/outliers.json), [política de extremos](../reports/data/outlier-policy.json), [métricas do EXP-001](../reports/metrics/EXP-001.json) e PNGs existentes. Exibir esses artefatos difere de recalcular a EDA. Não usar `run_eda()` para sobrescrever relatórios nesta reprodução.
 
-A política S8 conserva 1760 observações e sete entradas, sem clipping/remoção. Futuro treinamento deve ajustar transformadores dentro de cada fold, com validação/inferência usando apenas transform. A EDA não pré-ajusta scaler, imputador ou clipping. O notebook não ajusta classificadores nem transformadores reais.
+A política de valores extremos conserva 1760 observações e sete entradas, sem clipping/remoção. Futuro treinamento deve ajustar transformadores dentro de cada fold, com validação/inferência usando apenas transform. A EDA não pré-ajusta scaler, imputador ou clipping. O notebook não ajusta classificadores nem transformadores reais.
 
-## 11. Entrega 1 — revisão acadêmica atual (2026-11-07)
+## 11. Entrega 1 — notebook e síntese (2026-11-08)
 
-Artefatos: [notebook](../notebooks/00_entrega_parcial.ipynb), [síntese](entrega-parcial/sintese.md) e [rubrica oficial](<../Modulo4_Rubricas_Avaliacao (1).pdf>). A entrega cobre problema, hipóteses exploratórias, interpretação da EDA e justificativa das sete entradas. As hipóteses foram formuladas depois da EDA inicial e verificadas descritivamente na mesma amostra; não são confirmação independente.
+Artefatos: [notebook](../notebooks/00_entrega_parcial.ipynb), [síntese](entrega-parcial/sintese.md) e [rubrica oficial](<../Modulo4_Rubricas_Avaliacao (1).pdf>). A entrega cobre problema e objetivo, hipóteses exploratórias, interpretação da EDA, justificativa das sete entradas, metodologia, primeiro experimento ([EXP-001](../reports/experiments/EXP-001.md)) e próximos passos. As hipóteses foram formuladas depois da EDA inicial e verificadas descritivamente na mesma amostra; não são confirmação independente.
 
 No host, com JSONs/PNGs já preparados e venv/kernel do projeto:
 
@@ -131,6 +131,6 @@ No host, com JSONs/PNGs já preparados e venv/kernel do projeto:
 uv run --locked jupyter nbconvert --to notebook --execute --inplace notebooks/00_entrega_parcial.ipynb
 ```
 
-Resultado a conferir: saída 0, 21 células de código executadas em ordem, 16 PNGs e nenhum output de erro. A última célula deve registrar `raw_holdout_open_attempts: 0`, `train_write_attempts: 0`, `dataset_csvs_read: False` e `real_fit_performed: False`. A execução exibe artefatos; não recalcula ciência nem consulta CSVs. Esta revisão alterou apenas documentação e preservou código/outputs existentes, sem reexecutar o notebook.
+Resultado esperado: saída 0, 22 células de código executadas em ordem, 16 PNGs e nenhum output de erro. A seção "Primeiro experimento (EXP-001)" exibe os 7 modelos com `f1_macro`, `precision_macro` e `recall_macro` (média ± dp) lidos de `reports/metrics/EXP-001.json`. A última célula deve registrar `raw_holdout_open_attempts: 0`, `train_write_attempts: 0`, `dataset_csvs_read: False`, `real_fit_performed: False` e `experiment_results_shown: 'EXP-001'`. A execução exibe artefatos; não refaz os cálculos da EDA, não treina modelos e não consulta CSVs.
 
-S9 aprovou `f1_macro` e `StratifiedKFold(n_splits=5, shuffle=True, random_state=42)` para a etapa posterior. Aprovar o protocolo não significa experimento executado: não há métrica preditiva produzida neste notebook. Não há modelo final, SHAP ou banco nesta entrega. Verificações e aprovações internas ficam registradas apenas localmente; esta orientação não concede H4 nem encerra gates.
+Para regenerar as métricas do EXP-001 é preciso o ambiente local completo com o treino; isso não faz parte da reprodução desta entrega. Não há modelo final, SHAP ou banco nesta entrega, e esta orientação não libera o holdout.

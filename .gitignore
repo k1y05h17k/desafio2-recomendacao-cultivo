@@ -51,6 +51,7 @@ kaggle.json
 /docs/status.md
 /docs/tasks.md
 /docs/tech-debt.md
+/docs/auditoria-entrega1
 
 # Testes e hooks de desenvolvimento locais (exclusao solicitada para a entrega)
 /tests/

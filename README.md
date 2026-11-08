@@ -1,20 +1,20 @@
 # Recomendação de cultivo (Desafio 2)
 
-Projeto acadêmico de classificação multiclasse: investigar padrões de solo e clima associados às culturas rotuladas no dataset. As sete entradas são `N`, `P`, `K`, `temperature`, `humidity`, `ph` e `rainfall`; a saída futura é uma categoria `label`. Nesta parcial, a entrega efetiva é a análise exploratória que fundamenta essa tarefa.
+Projeto acadêmico de classificação multiclasse: a partir de sete medições de solo e clima (`N`, `P`, `K`, `temperature`, `humidity`, `ph` e `rainfall`), indicar qual das 22 culturas do dataset (`label`) corresponde àquelas condições.
 
-O público proposto são estudantes e analistas de um protótipo de triagem de culturas. O estudo apoia a investigação de padrões entre medições e rótulos; não comprova adequação agronômica, produtividade ou generalização para outras regiões/safras e não prescreve plantio. Unidades, métodos e períodos de medição permanecem desconhecidos. Problema e limites: [visão geral](project/overview.md).
+Usuário-alvo: produtor rural ou agrônomo que precisa de uma primeira indicação de cultura. Trata-se de uma prova de conceito acadêmica: a indicação apoia, mas não substitui, a avaliação agronômica, e não comprova produtividade nem generalização para outras regiões ou safras. Unidades, métodos e períodos de medição não são informados pela fonte. Problema e limites: [visão geral](project/overview.md).
 
-## Entrega 1 — parcial (40%)
+## Entrega 1 — parcial
 
-- [Notebook acadêmico](notebooks/00_entrega_parcial.ipynb): problema delimitado, hipóteses exploratórias com cronologia explícita, interpretação dos 16 gráficos e justificativa das sete variáveis.
-- [Síntese acadêmica](docs/entrega-parcial/sintese.md): resultados descritivos e limites em formato conciso.
+- [Notebook](notebooks/00_entrega_parcial.ipynb): problema e objetivo, hipóteses exploratórias, interpretação dos 16 gráficos da EDA, justificativa das sete variáveis, metodologia, primeiro experimento e próximos passos.
+- [Síntese](docs/entrega-parcial/sintese.md): resumo de duas páginas com os mesmos itens.
 - [Rubrica oficial](<Modulo4_Rubricas_Avaliacao (1).pdf>).
 
-**Estado em 2026-11-07:** a [EDA do treino](reports/data/eda.json) registra 1760 observações, sete entradas, 22 classes e 80 registros por classe. A revisão narrativa mantém as hipóteses identificadas como formuladas após a EDA inicial, sem apresentá-las como testes confirmatórios. O notebook lê JSONs e PNGs preparados; não treina modelos.
+**Estado em 2026-11-08:** a [EDA do treino](reports/data/eda.json) registra 1760 observações, sete entradas, 22 classes e 80 registros por classe. As hipóteses foram formuladas após a EDA inicial e são checadas descritivamente, sem caráter confirmatório. O notebook lê JSONs e PNGs preparados e não treina modelos; ele apresenta os resultados do primeiro experimento (EXP-001, validação cruzada no treino).
 
-A fonte aprovada é o GitHub `KrissshSaini/Crop-Recommendation-System`, CSV fixado no commit `a90b2ed5365bc558baef1ad4e327d2715e53ea2a`. O CSV não é redistribuído: a fonte não declara licença. O split único está preservado. A [política S8](reports/data/outlier-policy.json) mantém todas as observações e sete entradas, sem clipping/remoção; S7 define StandardScaler para LogReg/MLP e `none` para as demais famílias.
+A fonte é o GitHub `KrissshSaini/Crop-Recommendation-System`, CSV fixado no commit `a90b2ed5365bc558baef1ad4e327d2715e53ea2a` (origem declarada: Kaggle `atharvaingle/crop-recommendation-dataset`). O CSV não é redistribuído: a fonte não declara licença. A divisão treino/teste foi feita uma única vez. A [política de valores extremos](reports/data/outlier-policy.json) mantém todas as observações e as sete entradas, sem limitar nem remover valores; o `StandardScaler` é usado só na regressão logística e no MLP.
 
-S9 aprovou `f1_macro` e `StratifiedKFold(n_splits=5, shuffle=True, random_state=42)`. Isso não comprova execução de experimentos, que não fazem parte deste notebook nem são exigidos pelos quatro critérios da Entrega 1. H4 não foi concedida.
+[EXP-001](reports/experiments/EXP-001.md): sete modelos comparados por validação cruzada estratificada (5 folds, seed 42) somente no treino, com F1 macro como métrica principal; a Random Forest teve 0,9948 ± 0,0052, e o baseline Dummy, 0,0040 ± 0,0000. O conjunto de teste reservado ainda não foi usado.
 
 ## Configuração e execução
 
@@ -29,7 +29,7 @@ S9 aprovou `f1_macro` e `StratifiedKFold(n_splits=5, shuffle=True, random_state=
 | [Sem Docker](#sem-docker) | uv instalado; Python 3.11 gerenciado pelo uv, sem exigir Python no PATH. |
 | [Com Docker](#com-docker) | Docker Desktop ou Docker Engine Linux com Compose ativo; dispensa Python e uv no computador. |
 
-A primeira instalação de dependências ou construção da imagem pode exigir internet. O notebook distribuído já contém outputs salvos. Executá-lo exibe JSONs e PNGs preparados: não recalcula a EDA, não treina modelos e não acessa datasets. Não é necessário repetir ingestão ou split. Detalhes: [runbook](docs/runbook.md), seções 6 e 11.
+A primeira instalação de dependências ou construção da imagem pode exigir internet. O notebook distribuído já contém outputs salvos. Executá-lo exibe JSONs e PNGs preparados: não recalcula a EDA, não treina modelos e não acessa datasets; as métricas de validação cruzada do EXP-001 são apenas lidas e exibidas. Não é necessário repetir ingestão ou split. Detalhes: [runbook](docs/runbook.md), seções 6 e 11.
 
 ### Sem Docker
 
@@ -122,12 +122,13 @@ docker compose down
 | Caminho | Conteúdo |
 |---|---|
 | `src/cultivo/` | Configuração, ingestão, schema, split/carga de treino, EDA e pré-processamento. |
-| `notebooks/00_entrega_parcial.ipynb` | Interface acadêmica da EDA, com narrativa e outputs salvos. |
+| `notebooks/00_entrega_parcial.ipynb` | Notebook da Entrega 1 (EDA, metodologia e EXP-001), com narrativa e outputs salvos. |
 | `docs/entrega-parcial/sintese.md` | Síntese da Entrega 1. |
 | `reports/data/`, `reports/figures/eda/` | Agregados descritivos, política de extremos e gráficos do treino. |
+| `reports/metrics/`, `reports/experiments/` | Métricas e relatórios dos experimentos por validação cruzada no treino; a Entrega 1 apresenta o EXP-001. |
 | `pyproject.toml`, `uv.lock`, `.python-version` | Dependências e versões do ambiente. |
 | `docker/Dockerfile`, `docker-compose.yml` | Ambiente Docker restrito, sem banco. |
 | `project/` | Contexto do problema e da implementação. |
 | `docs/runbook.md` | Procedimentos de reprodução da entrega. |
 
-O holdout permanece intocado até H4; até lá, métricas preditivas somente por validação cruzada no treino.
+O conjunto de teste reservado (holdout) permanece intocado até a entrega final; até lá, métricas preditivas somente por validação cruzada no treino.
