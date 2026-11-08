@@ -1,0 +1,125 @@
+{
+  "schema_version": "1",
+  "scope": "train",
+  "policy_id": "S8-P10",
+  "status": "approved_by_human",
+  "decision_date": "2026-11-07",
+  "source": {
+    "human_record": "docs/status.md#decisao-humana-s8---p10-resolvida",
+    "human_response": "Manter todas as observacoes (recomendado)",
+    "task_authorization": "docs/tasks/TASK-009.md"
+  },
+  "provenance": {
+    "train_sha256": "e71eea516bec613930e37551cc20b71a75d68ffe7c548fb979d6ae6557e61fdf",
+    "n_observations": 1760,
+    "n_classes": 22,
+    "feature_names": [
+      "N",
+      "P",
+      "K",
+      "temperature",
+      "humidity",
+      "ph",
+      "rainfall"
+    ]
+  },
+  "global_decision": {
+    "action": "keep_all_observations",
+    "retained_observations": 1760,
+    "clipping": false,
+    "removal": false,
+    "create_outlier_clipper": false
+  },
+  "features": {
+    "N": {
+      "action": "keep",
+      "clipping": false,
+      "remove_observations": false,
+      "justification": "Nenhum candidato IQR observado; nao ha tratamento indicado pelo detector. S8 aprova preservar todas as 1760 observacoes.",
+      "evidence": {
+        "report": "reports/data/outliers.json",
+        "section": "features.N",
+        "comparisons": "features.N.comparison.scenarios",
+        "figure": "reports/figures/eda/N-distribution.png"
+      }
+    },
+    "P": {
+      "action": "keep",
+      "clipping": false,
+      "remove_observations": false,
+      "justification": "108 candidatos estatisticos nao comprovam erro agronomico; unidades nao confirmadas. Remocao hipotetica deixaria 1652 registros e 22 classes; clipping altera valores sem erro de medicao demonstrado. S8 aprova preservar todas as 1760 observacoes.",
+      "evidence": {
+        "report": "reports/data/outliers.json",
+        "section": "features.P",
+        "comparisons": "features.P.comparison.scenarios",
+        "figure": "reports/figures/eda/P-distribution.png"
+      }
+    },
+    "K": {
+      "action": "keep",
+      "clipping": false,
+      "remove_observations": false,
+      "justification": "160 candidatos estatisticos nao comprovam erro agronomico; unidades nao confirmadas. Remocao hipotetica deixaria 1600 registros e 20 classes; clipping altera valores sem erro de medicao demonstrado. S8 aprova preservar todas as 1760 observacoes.",
+      "evidence": {
+        "report": "reports/data/outliers.json",
+        "section": "features.K",
+        "comparisons": "features.K.comparison.scenarios",
+        "figure": "reports/figures/eda/K-distribution.png"
+      }
+    },
+    "temperature": {
+      "action": "keep",
+      "clipping": false,
+      "remove_observations": false,
+      "justification": "72 candidatos estatisticos nao comprovam erro agronomico; unidades nao confirmadas. Remocao hipotetica deixaria 1688 registros e 22 classes; clipping altera valores sem erro de medicao demonstrado. S8 aprova preservar todas as 1760 observacoes.",
+      "evidence": {
+        "report": "reports/data/outliers.json",
+        "section": "features.temperature",
+        "comparisons": "features.temperature.comparison.scenarios",
+        "figure": "reports/figures/eda/temperature-distribution.png"
+      }
+    },
+    "humidity": {
+      "action": "keep",
+      "clipping": false,
+      "remove_observations": false,
+      "justification": "24 candidatos estatisticos nao comprovam erro agronomico; unidades nao confirmadas. Remocao hipotetica deixaria 1736 registros e 22 classes; clipping altera valores sem erro de medicao demonstrado. S8 aprova preservar todas as 1760 observacoes.",
+      "evidence": {
+        "report": "reports/data/outliers.json",
+        "section": "features.humidity",
+        "comparisons": "features.humidity.comparison.scenarios",
+        "figure": "reports/figures/eda/humidity-distribution.png"
+      }
+    },
+    "ph": {
+      "action": "keep",
+      "clipping": false,
+      "remove_observations": false,
+      "justification": "43 candidatos estatisticos nao comprovam erro agronomico; unidades nao confirmadas. Remocao hipotetica deixaria 1717 registros e 22 classes; clipping altera valores sem erro de medicao demonstrado. S8 aprova preservar todas as 1760 observacoes.",
+      "evidence": {
+        "report": "reports/data/outliers.json",
+        "section": "features.ph",
+        "comparisons": "features.ph.comparison.scenarios",
+        "figure": "reports/figures/eda/ph-distribution.png"
+      }
+    },
+    "rainfall": {
+      "action": "keep",
+      "clipping": false,
+      "remove_observations": false,
+      "justification": "82 candidatos estatisticos nao comprovam erro agronomico; unidades nao confirmadas. Remocao hipotetica deixaria 1678 registros e 22 classes; clipping altera valores sem erro de medicao demonstrado. S8 aprova preservar todas as 1760 observacoes.",
+      "evidence": {
+        "report": "reports/data/outliers.json",
+        "section": "features.rainfall",
+        "comparisons": "features.rainfall.comparison.scenarios",
+        "figure": "reports/figures/eda/rainfall-distribution.png"
+      }
+    }
+  },
+  "authority": {
+    "kind": "human_policy_not_fitted_parameters",
+    "future_run_eda": "descriptive_science_only_does_not_change_or_revoke_this_policy",
+    "iqr_limits_are_not_global_cv_parameters": true,
+    "changes_require_new_human_decision": true
+  }
+}

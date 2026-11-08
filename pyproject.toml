@@ -1,0 +1,81 @@
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14"]
+build-backend = "uv_build"
+
+[project]
+name = "cultivo"
+version = "0.1.0"
+description = "Recomendação de cultivo a partir de características de solo e clima (Desafio 2)."
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "pydantic>=2,<3",
+    "pandas>=3.1,<4",
+    "numpy>=2.4,<3",
+    "scikit-learn>=1.9,<2",
+    "scipy>=1.17,<2",
+    "xgboost>=3.2,<4",
+    "lightgbm>=4.7,<5",
+    "shap>=0.51,<1",
+    "matplotlib>=3.11,<4",
+    "seaborn>=0.13,<1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2,<10",
+    "pytest-cov>=7.1,<8",
+    "ruff>=0.17,<1",
+    "jupyter>=1.1,<2",
+    "nbconvert>=7.17,<8",
+    "ipykernel>=7.4,<8",
+    "mypy>=1.19,<2",
+    "bandit[toml]>=1.8,<2",
+    "pip-audit>=2.9,<3",
+    "pre-commit>=4,<5",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "C90", "N"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+markers = [
+    "integration: integracao de componentes com dados sinteticos",
+    "contract: contratos de schema e interfaces com dados sinteticos",
+    "smoke: import do pacote e execução do notebook de ponta a ponta",
+]
+
+[tool.coverage.run]
+source = ["cultivo"]
+
+[tool.coverage.report]
+fail_under = 85
+
+[tool.mypy]
+python_version = "3.11"
+disallow_untyped_defs = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["pandas", "pandas.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["sklearn", "sklearn.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["scipy", "scipy.*"]
+ignore_missing_imports = true
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+

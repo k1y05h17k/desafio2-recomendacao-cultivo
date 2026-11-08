@@ -1,0 +1,25 @@
+{
+  "source": "github",
+  "source_url": "https://raw.githubusercontent.com/KrissshSaini/Crop-Recommendation-System/a90b2ed5365bc558baef1ad4e327d2715e53ea2a/Crop_recommendation.csv",
+  "repository": "KrissshSaini/Crop-Recommendation-System",
+  "revision": "a90b2ed5365bc558baef1ad4e327d2715e53ea2a",
+  "path_in_repo": "Crop_recommendation.csv",
+  "declared_origin": "kaggle:atharvaingle/crop-recommendation-dataset",
+  "license": null,
+  "downloaded_at": "2026-11-07T19:23:31.963291+00:00",
+  "size_bytes": 150034,
+  "git_blob_sha1": "31dbf061867597840c9afd69ed825163adb31f2f",
+  "sha256": "54a5a6e5408668e668667efc50de2fc867c1b875e0431b4f54dd331b0a109a4e",
+  "n_rows": 2200,
+  "columns": [
+    "N",
+    "P",
+    "K",
+    "temperature",
+    "humidity",
+    "ph",
+    "rainfall",
+    "label"
+  ],
+  "python_version": "3.11.18"
+}

@@ -1,0 +1,57 @@
+name: cultivo
+
+x-runtime: &runtime
+  image: cultivo:dev
+  build:
+    context: .
+    dockerfile: docker/Dockerfile
+  working_dir: /workspace
+  volumes:
+    - ./src:/workspace/src:ro
+    - ./tests:/workspace/tests:ro
+    - ./pyproject.toml:/workspace/pyproject.toml:ro
+    - ./uv.lock:/workspace/uv.lock:ro
+    - tool-cache:/workspace/.cache
+  environment: &cache-environment
+    UV_CACHE_DIR: /workspace/.cache/uv
+    RUFF_CACHE_DIR: /workspace/.cache/ruff
+    MYPY_CACHE_DIR: /workspace/.cache/mypy
+    COVERAGE_FILE: /workspace/.cache/.coverage
+    PYTEST_ADDOPTS: -o cache_dir=/workspace/.cache/pytest
+  deploy:
+    resources:
+      limits:
+        cpus: "2"
+        memory: 4g
+
+services:
+  lab:
+    <<: *runtime
+    command: ["uv", "run", "--locked", "jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--IdentityProvider.token=", "--PasswordIdentityProvider.hashed_password="]
+    volumes:
+      - ./src:/workspace/src:ro
+      - ./tests:/workspace/tests:ro
+      - ./pyproject.toml:/workspace/pyproject.toml:ro
+      - ./uv.lock:/workspace/uv.lock:ro
+      - tool-cache:/workspace/.cache
+      - ./docs:/workspace/docs:ro
+      - ./notebooks:/workspace/notebooks:ro
+      - ./reports:/workspace/reports:ro
+      - ./project:/workspace/project:ro
+      - ./README.md:/workspace/README.md:ro
+      - "./Modulo4_Rubricas_Avaliacao (1).pdf:/workspace/Modulo4_Rubricas_Avaliacao (1).pdf:ro"
+    ports:
+      - "127.0.0.1:8888:8888"
+    healthcheck:
+      test: ["CMD", "uv", "run", "--locked", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8888/api', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+  app:
+    <<: *runtime
+    command: ["uv", "run", "--locked", "pytest", "-m", "smoke", "-q"]
+
+volumes:
+  tool-cache:
+

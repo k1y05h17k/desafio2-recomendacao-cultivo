@@ -1,0 +1,72 @@
+# Ambiente e build
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Caches de ferramentas
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.ipynb_checkpoints/
+.cache/
+
+# Dados: fora do git, exceto os manifests (ADR-0002)
+/data/**
+!/data/**/
+!/data/raw/MANIFEST.json
+!/data/processed/SPLIT_MANIFEST.json
+# Holdout: pasta inteira ignorada (ADR-0001); vem depois da reinclusão de diretórios
+/data/holdout/
+
+# Ambiente local e credenciais (ADR-0006, security-rules.md)
+.env
+.env.*
+!.env.example
+kaggle.json
+
+# Cache de tipagem
+.mypy_cache/
+
+# Ferramentas e instrucoes locais de agentes (fora da entrega academica)
+/.claude/
+/.codex/
+/.agents/
+/AGENTS.md
+/CLAUDE.md
+/docs/agents/
+/docs/adr/
+/docs/evidence/
+/docs/tasks/
+/docs/requirements/
+/docs/reviews/
+/docs/academic/
+/docs/analysis.md
+/docs/architecture.md
+/docs/requirements-traceability.md
+/docs/status.md
+/docs/tasks.md
+/docs/tech-debt.md
+
+# Testes e hooks de desenvolvimento locais (exclusao solicitada para a entrega)
+/tests/
+/.pre-commit-config.yaml
+
+# Configuracoes de editores
+/.idea/
+/.vscode/
+
+# Arquivos auxiliares do sistema operacional
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Materiais auxiliares; EXP-002 ignorado enquanto rascunho: remover regra antes de publicar resultados.
+/project/architecture-context.md
+/project/decisions.md
+/.env.example
+/reports/experiments/EXP-002.md
