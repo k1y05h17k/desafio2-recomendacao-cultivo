@@ -1,4 +1,4 @@
-﻿# Entrega 1 — síntese acadêmica
+# Entrega 1 — síntese acadêmica
 
 2026-11-07 · Recomendação de cultivo inteligente · Escopo: problema, hipóteses, EDA e variáveis relevantes. Fonte dos números: [EDA do treino](../../reports/data/eda.json). Material completo: [notebook](../../notebooks/00_entrega_parcial.ipynb).
 
@@ -41,4 +41,4 @@ Os histogramas mostram amplitudes e assimetrias distintas. Os boxplots localizam
 
 ## Conclusão e próximos passos
 
-A parcial entrega problema delimitado, hipóteses verificáveis, visualizações interpretadas e justificativas das sete variáveis. Não há primeiro experimento de classificação concluído nem métricas preditivas a reportar; isso não integra os quatro critérios da rubrica da Entrega 1. A utilidade preditiva será investigada posteriormente por CV somente no treino, com transformações ajustadas por fold; S9 aprovou F1 macro e cinco folds estratificados, embaralhados, seed 42. Confirmar unidades/origem e validar uso agronômico continuam necessários antes de aplicação real. O holdout permanece condicionado à H4.
+A parcial entrega problema delimitado, hipóteses verificáveis, visualizações interpretadas e justificativas das sete variáveis. O [EXP-001](../../reports/experiments/EXP-001.md) comparou sete modelos por validação cruzada somente nos dados de treino, em cinco folds estratificados e embaralhados (seed 42), com transformações ajustadas por fold. O F1 macro (média ± desvio-padrão entre folds) foi de 0,0040 ± 0,0000 para o baseline Dummy, 0,9686 ± 0,0090 para a regressão logística e 0,9948 ± 0,0052 para a Random Forest. Confirmar unidades/origem e validar uso agronômico continuam necessários antes de aplicação real. O holdout permanece condicionado à H4.
